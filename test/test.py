@@ -21,11 +21,11 @@ def test_post_tasks():
 	}
 	response = requests.post(
 		f'{ENDPOINT}/tasks',
-		data=request_body,
+		data=json.dumps(request_body),
 		headers={'Content-Type': 'application/json'}
 	)
 
-	if response.status_code != 200:
+	if response.status_code != 201:
 		raise Exception
 
 
@@ -45,8 +45,8 @@ def test_put_tasks_task():
 	}
 	new_task = get_new_task()
 	response = requests.put(
-		f'{ENDPOINT}/tasks{new_task['task_id']}',
-		data=request_body,
+		f'{ENDPOINT}/tasks/{new_task['task_id']}',
+		data=json.dumps(request_body),
 		headers={'Content-Type': 'application/json'}
 	)
 	if response.status_code != 200:
@@ -73,10 +73,28 @@ def get_new_task():
 
 def main():
 	try:
+		print('start test_get_tasks()')
 		test_get_tasks()
+		print('completed test_get_tasks()')
+
+		print('start test_post_tasks()')
 		test_post_tasks()
+		print('completed test_post_tasks()')
+
+		print('start test_get_tasks_task()')
 		test_get_tasks_task()
+		print('completed test_get_tasks_task()')
+
+		print('start test_put_tasks_task()')
 		test_put_tasks_task()
+		print('completed test_put_tasks_task()')
+
+		print('start test_delete_tasks_task()')
 		test_delete_tasks_task()
+		print('test_delete_tasks_task()')
 	except Exception:
 		print('test is failed.')
+
+
+if __name__ == '__main__':
+	main()
